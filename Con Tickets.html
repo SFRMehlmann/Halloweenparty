@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticketshop - Mystery Con</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #ffcc00;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #ffd700; /* Hellerer Gelbton beim Hover */
+        }
+
+        #cart {
+            margin-top: 30px;
+            border-top: 2px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .overlay {
+            display: none; /* Standardmäßig versteckt */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000; /* Über andere Inhalte legen */
+        }
+
+        .overlay.active {
+            display: block; /* Aktivieren, wenn nötig */
+        }
+
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        .close {
+            cursor: pointer;
+            float: right;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Ticketshop</h1>
+        <nav>
+            <ul>
+                <li><a href="Con Start.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <button id="open-cart-top" onclick="toggleCart()">Warenkorb anzeigen</button>
+    
+    <main>
+        <section id="products">
+            <h2>Produkte</h2>
+
+            <div class="product" data-name="Standard Eintrittskarte" data-price="39.99">
+                <h3>Standard Eintrittskarte</h3>
+                <p>Preis: <span class="price">39,99 €</span></p>
+                <button onclick="addToCart('Standard Eintrittskarte', 39.99)">In den Warenkorb</button>
+            </div>
+
+            <div class="product" data-name="Early Bird Eintrittskarte" data-price="29.99">
+                <h3>Early Bird Eintrittskarte</h3>
+                <p>Preis: <span class="price">29,99 €</span></p>
+                <button onclick="addToCart('Early Bird Eintrittskarte', 29.99)">In den Warenkorb</button>
+            </div>
+
+            <div class="product" data-name="Jugend Eintrittskarte" data-price="19.99">
+                <h3>Jugend Eintrittskarte</h3>
+                <p>Preis: <span class="price">19,99 €</span></p>
+                <button onclick="addToCart('Jugend Eintrittskarte', 19.99)">In den Warenkorb</button>
+            </div>
+
+            <div class="product" data-name="VIP Eintrittskarte" data-price="59.99">
+                <h3>VIP Eintrittskarte</h3>
+                <p>Preis: <span class="price">59,99 €</span></p>
+                <button onclick="addToCart('VIP Eintrittskarte', 59.99)">In den Warenkorb</button>
+            </div>
+
+            <div class="product" data-name="Autogrammkarte" data-price="10">
+                <h3>Autogrammkarte</h3>
+                <p>Preis: <span class="price">10 €</span></p>
+                <button onclick="addToCart('Autogrammkarte', 10)">In den Warenkorb</button>
+            </div>
+        </section>
+
+        <button id="open-cart" onclick="toggleCart()">Warenkorb anzeigen</button>
+
+        <div id="cart-overlay" class="overlay">
+            <div class="overlay-content">
+                <span class="close" onclick="toggleCart()">&times;</span>
+                <h2>Warenkorb</h2>
+                <div id="cart-items"></div>
+                <div id="cart-total">Gesamt: 0 €</div>
+                <button onclick="toggleCart()">Schließen</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mystery Con. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name, price) {
+            // Artikel zum Warenkorb hinzufügen
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1; // Menge erhöhen, wenn das Item bereits im Warenkorb ist
+            } else {
+                cart.push({ name, price, quantity: 1 }); // Neues Item hinzufügen
+            }
+            total += price;
+            updateCartDisplay();
+
+            // Benachrichtigung anzeigen
+            showNotification(`${name} wurde zum Warenkorb hinzugefügt!`);
+        }
+
+        function removeFromCart(name) {
+            // Artikel aus dem Warenkorb entfernen
+            const itemIndex = cart.findIndex(item => item.name === name);
+            if (itemIndex > -1) {
+                total -= cart[itemIndex].price * cart[itemIndex].quantity; // Gesamtpreis aktualisieren
+                cart.splice(itemIndex, 1); // Artikel aus dem Array entfernen
+                updateCartDisplay();
+
+                // Benachrichtigung anzeigen
+                showNotification(`${name} wurde aus dem Warenkorb entfernt!`);
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            cartItemsDiv.innerHTML = ''; // Vorherige Einträge löschen
+
+            cart.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = `${item.name} - ${item.quantity}x - ${item.price.toFixed(2)} €`;
+                
+                // Button zum Entfernen des Artikels hinzufügen
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Entfernen';
+                removeButton.onclick = () => removeFromCart(item.name);
+                itemDiv.appendChild(removeButton);
+                
+                cartItemsDiv.appendChild(itemDiv);
+            });
+
+            const totalDiv = document.getElementById('cart-total');
+            totalDiv.textContent = `Gesamt: ${total.toFixed(2)} €`;
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#ffcc00';
+            notification.style.color = 'black';
+            notification.style.padding = '10px';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '2000'; // Über anderen Inhalten anzeigen
+            document.body.appendChild(notification);
+
+            // Entferne die Benachrichtigung nach 3 Sekunden
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+        function toggleCart() {
+            const cartOverlay = document.getElementById('cart-overlay');
+            cartOverlay.classList.toggle('active');
+        }
+    </script> <!-- Hier kannst du dein JavaScript verlinken -->
+</body>
+</html>

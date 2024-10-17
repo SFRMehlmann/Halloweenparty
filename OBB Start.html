@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nightjet Intranet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        /* Header Styling */
+header {
+    position: relative;
+    background-image: url(https://presse-oebb.at/Content/580993/405ae5c3-a9e3-4e19-a1c0-ff26325ae1e5/1200/2400/.jpg); /* Bild des Zuges */
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+}
+/* Optional: Subtle text-shadow for more emphasis */
+header h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+        }
+        .menu {
+            margin: 20px;
+        }
+        .menu a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #cc3333;
+            font-weight: bold;
+        }
+        .menu a:hover {
+            color: #ffffff;
+            transition: 0.3s;
+        }
+        .info-box {
+            margin: 20px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+        .info-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        .dm-control {
+            display: none;
+            margin-top: 20px;
+        }
+        .dm-control label, .dm-control input, .dm-control select {
+            margin: 5px;
+        }
+        #dm-warning {
+            color: red;
+            font-weight: bold;
+        }
+        .highlight {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        #station-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #station-list li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Nightjet Intranet</h1>
+</header>
+
+<div class="menu">
+    <a href="OBB Tickets.html">Ticketshop</a>
+    <a href="OBB Fahrplan.html">Fahrplaene</a>
+    <a href="#">Service</a>
+    <a href="OBB Story.html">OEBB - Wer wir sind</a>
+</div>
+
+<div class="info-box">
+    <h2>Aktuelles Datum: <span id="current-date">01.01.2024</span></h2>
+</div>
+
+<div class="info-box">
+    <h2>Aktuelle Uhrzeit: <span id="current-time">00:00</span></h2>
+</div>
+
+<div class="info-box">
+    <h2>Nächster Bahnhof: <span id="time-to-destination">00:00</span></h2>
+</div>
+
+<div class="info-box">
+    <h2>Haltestellen:</h2>
+    <div id="station-list">
+        <ul>
+            <li class="highlight">Bahnhof Salzburg</li>
+            <li>Bahnhof Voecklabruck</li>
+            <li>Bahnhof Attnang-Puchheim</li>
+            <li>Bahnhof Wels</li>
+            <li>Bahnhof Linz/Donau</li>
+            <li>Bahnhof St.Valentin</li>
+            <li>Bahnhof Amstetten</li>
+            <li>...</li>
+        </ul>
+    </div>
+</div>
+
+<div class="info-box">
+    <h2>Aktuelle Geschwindigkeit: <span id="speed">0 km/h</span></h2>
+</div>
+
+<!-- Button zum Öffnen des DM-Menüs -->
+<button onclick="toggleDMMenu()">DM Menü öffnen</button>
+
+<!-- DM-Bereich für Zeit-, Geschwindigkeits- und Bahnhofssteuerung -->
+<div class="dm-control" id="dm-controls">
+    <p id="dm-warning">ACHTUNG, nicht für Spieler! Bitte verlasse das DM-Menü!</p>
+    
+    <label for="dm-password">Passwort (DM):</label>
+    <input type="password" id="dm-password">
+    <button onclick="checkPassword()">Bestätigen</button>
+    
+    <div id="dm-settings" style="display: none;">
+        <label for="dm-date">Datum setzen (DM):</label>
+        <input type="date" id="dm-date" value="2024-01-01"><br>
+
+        <label for="dm-time">Uhrzeit setzen (DM):</label>
+        <input type="time" id="dm-time" value="00:00"><br>
+
+        <label for="speed-control">Geschwindigkeit setzen (DM):</label>
+        <button onclick="setSpeed(0)">0 km/h</button>
+        <button onclick="setSpeed(109)">109 km/h</button><br>
+<label for="station-control">Aktuellen Bahnhof setzen (DM):</label>
+<select id="station-control">
+    <option value="Bahnhof Salzburg">Bahnhof Salzburg</option>
+    <option value="Bahnhof Vöcklabruck">Bahnhof Voecklabruck</option>
+    <option value="Bahnhof Attnang-Puchheim">Bahnhof Attnang-Puchheim</option>
+    <option value="Bahnhof Wels">Bahnhof Wels</option>
+    <option value="Bahnhof Linz/Donau">Bahnhof Linz/Donau</option>
+    <option value="Bahnhof St.Valentin">Bahnhof St.Valentin</option>
+    <option value="Bahnhof Amstetten">Bahnhof Amstetten</option>
+    <option value="...">...</option>
+</select>
+
+    </div>
+</div>
+
+<script>
+    // Funktion zum Öffnen/Schließen des DM-Menüs
+    function toggleDMMenu() {
+        var dmControls = document.getElementById('dm-controls');
+        if (dmControls.style.display === 'none') {
+            dmControls.style.display = 'block';
+        } else {
+            dmControls.style.display = 'none';
+        }
+    }
+
+    // Passwortüberprüfung für DM-Zugang
+    function checkPassword() {
+        var password = document.getElementById('dm-password').value;
+        if (password === 'zivi') {
+            document.getElementById('dm-settings').style.display = 'block';
+        } else {
+            alert('Falsches Passwort!');
+        }
+    }
+
+    // Funktion zum Setzen der DM-Zeit
+    document.getElementById('dm-time').addEventListener('input', function() {
+        const dmTime = this.value;
+        document.getElementById('current-time').textContent = dmTime;
+        updateTrainStatus();
+    });
+
+    // Funktion zum Setzen des DM-Datums
+    document.getElementById('dm-date').addEventListener('input', function() {
+        const dmDate = this.value.split("-").reverse().join(".");
+        document.getElementById('current-date').textContent = dmDate;
+    });
+
+    // Funktion zum Setzen der Geschwindigkeit
+    function setSpeed(speed) {
+        document.getElementById('speed').textContent = speed + " km/h";
+    }
+
+// Funktion zum Setzen des aktuellen Bahnhofs
+document.getElementById('station-control').addEventListener('change', function() {
+    const selectedStation = this.value;
+    updateTrainStatus(selectedStation);
+});
+
+// Funktion zur Aktualisierung der Haltestellen-Anzeige
+function updateTrainStatus(selectedStation = "Bahnhof Salzburg") {
+    let stationList = [
+        "Bahnhof Salzburg", 
+        "Bahnhof Vöcklabruck", 
+        "Bahnhof Attnang-Puchheim", 
+        "Bahnhof Wels", 
+        "Bahnhof Linz/Donau", 
+        "Bahnhof St.Valentin", 
+        "Bahnhof Amstetten", 
+        "..."
+    ];
+    
+    let currentStationIndex = stationList.indexOf(selectedStation);
+    
+    let listHtml = "";
+    stationList.forEach((station, index) => {
+        if (index === currentStationIndex) {
+            listHtml += `<li class="highlight">${station}</li>`;
+            document.getElementById('station-image').src = `bilder/${station.toLowerCase().replace(" ", "_").replace("/","_")}.jpg`;
+        } else if (index > currentStationIndex) {
+            listHtml += `<li>${station}</li>`;
+        }
+    });
+    document.getElementById('station-list').innerHTML = `<ul>${listHtml}</ul>`;
+}
+
+// Initiales Setup der Haltestellen-Anzeige
+updateTrainStatus();
+</script>
+
+</body>
+</html>

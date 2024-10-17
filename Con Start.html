@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery Con 2024</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffe0; /* Hellgelber Hintergrund */
+            color: #333; /* Dunklere Schriftfarbe für besseren Kontrast */
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #ffcc00; /* Gelbe Kopfzeile */
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            color: #900; /* Dunkelrote Überschrift */
+        }
+        nav {
+            margin-top: 15px;
+        }
+        nav a, nav button {
+            color: black;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            background: #ffcc00; /* Gelber Hintergrund für Links/Buttons */
+            border: none; /* Kein Rahmen für den Button */
+            cursor: pointer; /* Zeiger für den Button */
+        }
+        nav a:hover, nav button:hover {
+            background: #ffd700; /* Hellere Gelbtöne bei Hover */
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+        #overlay-content {
+            background: #222;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        #overlay-content a {
+            display: block;
+            margin: 10px 0;
+            color: #f0f0f0;
+            text-decoration: none;
+            padding: 10px;
+            transition: background 0.3s;
+        }
+        #overlay-content a:hover {
+            background: #900;
+        }
+        section {
+            padding: 20px;
+            margin: 20px;
+            background: #f9f9f9; /* Heller Hintergrund für den Abschnitt */
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            color: #900; /* Dunkelrote Überschrift */
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #ffcc00; /* Gelber Footer */
+            color: black; /* Dunklere Schriftfarbe */
+            position: relative;
+            margin-top: 20px;
+        }
+        /* Styles für die Fun Facts-Sektion */
+.funfact-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.new-funfacts-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffcc00; /* Gelber Hintergrund */
+    color: black;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.new-funfacts-btn:hover {
+    background-color: #ffd700; /* Hellere Gelbtöne bei Hover */
+}
+        .sponsor {
+    display: inline-block;
+    width: 150px; /* Breite der Kacheln */
+    height: 200px; /* Höhe der Kacheln */
+    margin: 10px;
+    text-align: center;
+    border: 1px solid #ccc; /* Rahmen um die Kacheln */
+    border-radius: 10px; /* Abgerundete Ecken */
+    background: #f9f9f9; /* Heller Hintergrund für die Kacheln */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Schatten für die Kacheln */
+    padding: 10px; /* Innenabstand */
+}
+
+.sponsor img {
+    max-width: 100%; /* Maximale Breite der Logos */
+    max-height: 120px; /* Maximale Höhe der Logos */
+    object-fit: contain; /* Logos proportional skalieren */
+}
+
+    </style>
+    <script>
+        function toggleOverlay() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = overlay.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function checkPassword() {
+            const password = prompt("Bitte Passwort eingeben:");
+            const correctPassword = "1939";
+            if (password === correctPassword) {
+                alert("Tötet das lebende Kind um das Kind der Toten aus dem Reich der Lebenden zu beseitigen");
+                document.body.style.backgroundColor = "#900"; // Dunkelrot
+            } else {
+                alert("Leider falsch! Frag doch die Maske!");
+            }
+        }
+        const funfactsList = [
+    " 1.Wusstest du, dass die erste Mystery Con im Jahr 2003 stattfand?",
+    " 2.Mystery Geschichten haben ihre Wurzeln im 19. Jahrhundert!",
+    " 3.In einigen Ländern gibt es spezielle 'Mystery'-Touren, die auf berühmten Kriminalfällen basieren.",
+    " 4.Jeder dritte Teilnehmer kommt in einem Kostüm zur Mystery Con!",
+    " 5.Alte Männer sind laut Studien 10x freundlicher als Kinder.",
+    " 6.Kinder im zweiten Weltkrieg waren böse.",
+    " 7.Züge sind angeblich der gefährlichste Ort um heimgesucht zu werden",
+    " 8.In England gibt es eine Geisterjäger-Gruppe, die sich '1939' nennt.",
+    " 9.Das berühmteste Mystery-Buch aller Zeiten ist 'Das Rätsel der Sphinx'.",
+    "10.Das beliebteste Mystery Buch behandelt Geister des zweiten Weltkriegs.",
+    "11.Die meisten Mystery-Geschichten enden mit einem unerwarteten Twist.",
+    "12.Wusstest du, dass die ersten Mystery-Filme in den 1920er Jahren populär wurden?",
+    "13.Die beste Dr. Who Folge ist 'The empty Child' mit dem Zitat 'Are you my Mummy?'.",
+    "14.In vielen Kulturen gibt es Geschichten über Geister und Spukorte.",
+    "15.Die Stadt London hat die meisten dokumentierten Geistergeschichten.",
+    "16.Einige Mystery-Autoren verwenden tatsächlich ihre eigenen Erlebnisse als Inspiration.",
+    "17.Das erste Mystery-Spiel war ein einfaches Kartenspiel.",
+    "18.Um Geister zu töten, muss man finden, was sie mit dem Leben verbindet.",
+    "19.Krimis und Mystery sind oft verwandt, aber nicht identisch.",
+    "20.Die meisten Menschen lieben es, ungelöste Rätsel zu lösen.",
+    "21.Mystery kann auch in anderen Medien wie Videospielen und Brettspielen gefunden werden.",
+    "22. Wusstest du, dass es 22 Mystery Facts gibt?"
+];
+
+function generateFunfacts() {
+    const funfactsContainer = document.getElementById('funfacts');
+    funfactsContainer.innerHTML = ''; // Vorherige Funfacts löschen
+    const selectedFunfacts = [];
+
+    // Wähle zufällig 5 Funfacts aus der Liste aus
+    while (selectedFunfacts.length < 5) {
+        const randomIndex = Math.floor(Math.random() * funfactsList.length);
+        const randomFunfact = funfactsList[randomIndex];
+
+        // Überprüfen, ob der Funfact bereits ausgewählt wurde
+        if (!selectedFunfacts.includes(randomFunfact)) {
+            selectedFunfacts.push(randomFunfact);
+        }
+    }
+
+    // Anzeige der ausgewählten Funfacts
+    selectedFunfacts.forEach(fact => {
+        const factDiv = document.createElement('div');
+        factDiv.className = 'fact';
+        factDiv.textContent = fact;
+        funfactsContainer.appendChild(factDiv);
+    });
+}
+
+// Generiere beim Laden der Seite initiale Funfacts
+document.addEventListener('DOMContentLoaded', generateFunfacts);
+
+    </script>
+</head>
+<body>
+
+<header>
+    <h1>Mystery Con 2024</h1>
+    <nav>
+        <button id="menu-btn" onclick="toggleOverlay()">Menü</button>
+    </nav>
+</header>
+
+<div id="overlay">
+    <div id="overlay-content">
+        <h2>Menü</h2>
+        <a href="Con Tickets.html">Ticketshop</a>
+        <a href="Con Ehren.html">Ehrengäste</a>
+        <a href="Con Workshop.html">Workshops</a>
+        <a href="https://www.google.com/maps/place/Messe+Wels/@48.1514329,14.0154227,17z/data=!3m2!4b1!5s0x4773f2902bd81c0d:0x74105359ca736569!4m6!3m5!1s0x4773f29083c9c431:0xa6f682276333c71c!8m2!3d48.1514329!4d14.0179976!16s%2Fg%2F1tg7qv77?hl=de&entry=ttu&g_ep=EgoyMDI0MTAxNS4wIKXMDSoASAFQAw%3D%3D">Location</a>
+        <a href="#" onclick="toggleOverlay()">Schließen</a>
+        <button onclick="checkPassword()">Finde das Mystery-Jahr!</button>
+    </div>
+</div>
+
+<section>
+    <h2>Willkommen zur Mystery Con!</h2>
+    <p>Erlebe ein Wochenende voller Geheimnisse, spannender Geschichten und interessanter Menschen. Die Mystery Con findet am <strong>19. und 20. Oktober 2024</strong> in Wels statt und bietet eine Plattform für Fans, Autoren und kreative Köpfe.</p>
+    <h2>Mystery Funfacts</h2>
+<div id="funfact-container">
+    <div class="fun-facts" id="funfacts">
+        <!-- Hier werden die Funfacts angezeigt -->
+    </div>
+    <button id="new-funfacts-btn" onclick="generateFunfacts()">Neue Funfacts auswählen</button>
+</div>
+ <h2>Unsere Sponsoren</h2>
+<div class="sponsor">
+    <img src="SponsorenLogos/Sponsor1.png" alt="Sportzentrum und Freibad Imst">
+    <p>Sportzentrum und Freibad Imst</p>
+</div>
+<div class="sponsor">
+    <img src="SponsorenLogos/Sponsor2.png" alt="MS-Design">
+    <p>MS-Design</p>
+</div>
+<div class="sponsor">
+    <img src="SponsorenLogos/Sponsor3.png" alt="BMW">
+    <p>BMW</p>
+</div>
+<div class="sponsor">
+    <img src="SponsorenLogos/Sponsor4.png" alt="SPS West">
+    <p>SPS West</p>
+</div>
+<div class="sponsor">
+    <img src="SponsorenLogos/Sponsor5.png" alt="kontakt+co">
+    <p>kontakt+co</p>
+</div>
+<div class="sponsor">
+    <img src="SponsorenLogos/Sponsor6.jpg" alt="WKF World Kickboxing Federation">
+    <p>WKF</p>
+</div>>
+</section>
+
+<footer>
+    <p>&copy; 2024 Mystery Con</p>
+</footer>
+
+
+
+</body>
+</html>

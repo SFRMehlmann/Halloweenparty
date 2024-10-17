@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÖBB Ticketshop - Nightjet</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Allgemeines Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2e2e2e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Container für den Ticketshop */
+        .ticketshop-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #cc0000;
+        }
+
+        .search-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Eingabefelder und Buttons */
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], select {
+            padding: 10px;
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .ticket-options {
+            margin-top: 20px;
+        }
+
+        .btn-search {
+            background-color: #cc0000;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-search:hover {
+            background-color: #a30000;
+        }
+
+        /* Ticket-Info */
+        .ticket-results {
+            margin-top: 30px;
+        }
+
+        .ticket {
+            background-color: #fafafa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket h3 {
+            margin: 0;
+            color: #cc0000;
+        }
+
+        .ticket p {
+            margin: 5px 0;
+        }
+
+        .ticket-price {
+            font-size: 1.2rem;
+            color: #cc0000;
+            font-weight: bold;
+        }
+
+        /* Zurück-Button Styling */
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2e2e2e;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>ÖBB Ticketshop - Nightjet</h1>
+</header>
+
+<div class="ticketshop-container">
+    <h1>Fahrkartenbuchung</h1>
+    
+    <div class="search-section">
+        <div>
+            <label for="start">Abfahrtsbahnhof</label>
+            <input type="text" id="start" placeholder="z.B. Wien Hauptbahnhof">
+        </div>
+        <div>
+            <label for="destination">Zielbahnhof</label>
+            <input type="text" id="destination" placeholder="z.B. Innsbruck Hauptbahnhof">
+        </div>
+        <div>
+            <label for="date">Reisedatum</label>
+            <input type="text" id="date" placeholder="z.B. 15.10.2024">
+        </div>
+        <div>
+            <label for="passengers">Anzahl der Reisenden</label>
+            <select id="passengers">
+                <option value="1">1 Erwachsener</option>
+                <option value="2">2 Erwachsene</option>
+                <option value="3">3 Erwachsene</option>
+                <option value="4">4 Erwachsene</option>
+            </select>
+        </div>
+        <button class="btn-search">Verbindung suchen</button>
+    </div>
+
+    <div class="ticket-options">
+        <h2>Mögliche Verbindungen</h2>
+        
+        <!-- Beispiele für Ticketinfos -->
+        <div class="ticket-results">
+            <div class="ticket">
+                <div>
+                    <h3>Wien Hbf ➔ Innsbruck Hbf</h3>
+                    <p>Abfahrt: 22:45 | Ankunft: 07:00 | Direktverbindung</p>
+                </div>
+                <div class="ticket-price">€ 39,90</div>
+            </div>
+            <div class="ticket">
+                <div>
+                    <h3>Wien Hbf ➔ Salzburg Hbf ➔ Innsbruck Hbf</h3>
+                    <p>Abfahrt: 21:30 | Ankunft: 06:30 | 1 Umstieg</p>
+                </div>
+                <div class="ticket-price">€ 35,50</div>
+            </div>
+            <div class="ticket">
+                <div>
+                    <h3>Wien Hbf ➔ Linz Hbf ➔ Innsbruck Hbf</h3>
+                    <p>Abfahrt: 20:30 | Ankunft: 05:45 | 2 Umstiege</p>
+                </div>
+                <div class="ticket-price">€ 29,90</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zurück-Button -->
+    <a href="OBB Start.html" class="back-button">Zurück zur Startseite</a>
+</div>
+
+</body>
+</html>

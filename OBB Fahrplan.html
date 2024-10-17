@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÖBB Fahrpläne - Nightjet</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2e2e2e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .schedule-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #cc0000;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .train-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .schedule {
+            margin-top: 20px;
+        }
+
+        .schedule h2 {
+            color: #cc0000;
+        }
+
+        .schedule table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .schedule table, th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #2e2e2e;
+            color: white;
+        }
+
+        .highlight {
+            background-color: #ffcccc;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2e2e2e;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>ÖBB Fahrpläne - Nightjet</h1>
+</header>
+
+<div class="schedule-container">
+    <h1>Aktueller Fahrplan</h1>
+
+    <div class="train-selector">
+        <label for="train">Wähle einen Zug:</label>
+        <select id="train" onchange="showSchedule(this.value)">
+            <option value="nightjet">Nightjet 1234 (aktuell)</option>
+            <option value="express">Express 5678</option>
+            <option value="regional">Regionalzug 9876</option>
+            <option value="cityjet">Cityjet 4321</option>
+        </select>
+    </div>
+
+    <div class="schedule" id="scheduleContainer">
+        <h2>Fahrplan für Nightjet 1234</h2>
+        <table>
+            <tr>
+                <th>Bahnhof</th>
+                <th>Ankunft</th>
+                <th>Abfahrt</th>
+                <th>Gleis</th>
+            </tr>
+            <tr>
+                <td>Landeck Zams</td>
+                <td>23:42</td>
+                <td>23:48</td>
+                <td>3</td>
+            </tr>
+            <tr class="highlight">
+                <td>Imst Pitztal</td>
+                <td>00:05 <span style="color: red;">(+5 min)</span></td>
+                <td>00:07</td>
+                <td>1</td>
+            </tr>
+            <tr class="highlight">
+                <td>Ötztal</td>
+                <td>00:13 <span style="color: red;">(+2 min)</span></td>
+                <td>00:15</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>Innsbruck Hbf</td>
+                <td>00:39</td>
+                <td>00:44</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Salzburg</td>
+                <td>02:55</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Vöcklabruck</td>
+                <td>03:59</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Attnang-Puchheim</td>
+                <td>04:05</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Wels</td>
+                <td>04:24</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Linz/Donau</td>
+                <td>04:43</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>St. Valentin</td>
+                <td>05:02</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Amstetten</td>
+                <td>05:24</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>St. Pölten</td>
+                <td>06:10</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Wien Meidling</td>
+                <td>07:33</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Wien Hbf</td>
+                <td>07:40</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </table>
+    </div>
+
+    <a href="OBB Start.html" class="back-button">Zurück zur Startseite</a>
+</div>
+
+<script>
+    function showSchedule(train) {
+        const scheduleContainer = document.getElementById('scheduleContainer');
+        
+        if (train === 'nightjet') {
+            scheduleContainer.innerHTML = `
+                <h2>Fahrplan für Nightjet 1234</h2>
+                <table>
+                    <tr>
+                        <th>Bahnhof</th>
+                        <th>Ankunft</th>
+                        <th>Abfahrt</th>
+                        <th>Gleis</th>
+                    </tr>
+                    <tr>
+                        <td>Landeck Zams</td>
+                        <td>23:42</td>
+                        <td>23:48</td>
+                        <td>3</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td>Imst Pitztal</td>
+                        <td>00:05 <span style="color: red;">(+5 min)</span></td>
+                        <td>00:07</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td>Ötztal</td>
+                        <td>00:13 <span style="color: red;">(+2 min)</span></td>
+                        <td>00:15</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Innsbruck Hbf</td>
+                        <td>00:39</td>
+                        <td>00:44</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>Salzburg</td>
+                        <td>02:55</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Vöcklabruck</td>
+                        <td>03:59</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Attnang-Puchheim</td>
+                        <td>04:05</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Wels</td>
+                        <td>04:24</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Linz/Donau</td>
+                        <td>04:43</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>St. Valentin</td>
+                        <td>05:02</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Amstetten</td>
+                        <td>05:24</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>St. Pölten</td>
+                        <td>06:10</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Wien Meidling</td>
+                        <td>07:33</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Wien Hbf</td>
+                        <td>07:40</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </table>`;
+        } else if (train === 'express') {
+            scheduleContainer.innerHTML = `
+                <h2>Fahrplan für Express 5678</h2>
+                <table>
+                    <tr>
+                        <th>Bahnhof</th>
+                        <th>Ankunft</th>
+                        <th>Abfahrt</th>
+                        <th>Gleis</th>
+                    </tr>
+                    <tr>
+                        <td>Wien Hbf</td>
+                        <td>18:00</td>
+                        <td>18:05</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>St. Pölten</td>
+                        <td>18:30</td>
+                        <td>18:32</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Linzer Hbf</td>
+                        <td>19:00</td>
+                        <td>19:02</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Salzburg</td>
+                        <td>19:30</td>
+                        <td>19:35</td>
+                        <td>5</td>
+                    </tr>
+                </table>`;
+        } else if (train === 'regional') {
+            scheduleContainer.innerHTML = `
+                <h2>Fahrplan für Regionalzug 9876</h2>
+                <table>
+                    <tr>
+                        <th>Bahnhof</th>
+                        <th>Ankunft</th>
+                        <th>Abfahrt</th>
+                        <th>Gleis</th>
+                    </tr>
+                    <tr>
+                        <td>Graz</td>
+                        <td>08:00</td>
+                        <td>08:05</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Wien Meidling</td>
+                        <td>09:00</td>
+                        <td>09:02</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>St. Pölten</td>
+                        <td>09:30</td>
+                        <td>09:32</td>
+                        <td>2</td>
+                    </tr>
+                </table>`;
+        } else if (train === 'cityjet') {
+            scheduleContainer.innerHTML = `
+                <h2>Fahrplan für Cityjet 4321</h2>
+                <table>
+                    <tr>
+                        <th>Bahnhof</th>
+                        <th>Ankunft</th>
+                        <th>Abfahrt</th>
+                        <th>Gleis</th>
+                    </tr>
+                    <tr>
+                        <td>Klagenfurt</td>
+                        <td>10:00</td>
+                        <td>10:05</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Villach</td>
+                        <td>10:30</td>
+                        <td>10:32</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Salzburg</td>
+                        <td>11:00</td>
+                        <td>11:05</td>
+                        <td>3</td>
+                    </tr>
+                </table>`;
+        }
+    }
+</script>
+
+</body>
+</html>
